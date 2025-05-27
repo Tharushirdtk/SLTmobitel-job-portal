@@ -7,7 +7,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row">
         
-        {/* Left: Login Form */}
+      
         <div className="w-full md:w-1/2 p-8 md:p-12">
           <div className="bg-blue-900 text-white p-10 rounded-3xl shadow-lg flex flex-col h-full">
             <h2 className="text-4xl font-bold mb-8 text-center">Login</h2>
@@ -60,7 +60,6 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Right: Image */}
         <div className="hidden md:flex md:w-1/2 items-center justify-center p-6">
           <img
             src={loginImage}

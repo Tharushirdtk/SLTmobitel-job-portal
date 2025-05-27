@@ -13,7 +13,7 @@ export default function AboutUs(){
            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-[98%] max-w-6xl">
                      <NavBar />
                    </div>
-        {/* Left Side: Text */}
+      
         <div className="w-full md:w-1/2 flex flex-col justify-start md:justify-center">
           <h2 className="text-4xl font-bold text-blue-900 mb-6">About Us</h2>
           <p className="text-gray-700 text-lg leading-relaxed max-w-xl mb-6">
@@ -27,7 +27,7 @@ export default function AboutUs(){
           </button>
         </div>
 
-        {/* Right Side: Image */}
+      
         <div className="w-full md:w-1/2 flex justify-center items-center h-full">
           <img
             src={aboutImage}
