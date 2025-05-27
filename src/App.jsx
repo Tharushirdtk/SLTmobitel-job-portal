@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Vacancies from './pages/Vacancies';
 import ApplyForm from './pages/ApplyForm';
+import AppliedJobStatus from './pages/AppliedJobStatus';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
@@ -26,6 +27,8 @@ function App() {
          <Route path="/register" element={<Registration />} />
          <Route path="/vacancies" element={<Vacancies/>} />
          <Route path="/apply" element={<ApplyForm/>} />
+         <Route path="/jobStaus" element={<Vacancies/>}/>
+         <Route path="/appliedJobStatus" element={<AppliedJobStatus/>}/>
       </Routes>
    
     </BrowserRouter>
