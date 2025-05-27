@@ -1,12 +1,45 @@
-# React + Vite
+# SLT Mobitel Job Portal Website (React Remake)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a remake of the SLT Mobitel Job Portal website, rebuilt using **React.js** to provide a modern, responsive, and user-friendly interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## About
+
+The original SLT Mobitel Job Portal is a platform for job seekers and employers related to SLT Mobitel. This React remake focuses on improving performance, usability, and maintainability by leveraging React’s component-based architecture.
+
+---
+
+## Features
+
+- Responsive UI compatible with desktops, tablets, and mobile devices
+- Job listings with filtering and search functionality
+- User registration and login (mock implementation or connected to backend)
+- Application tracking system for users
+- Employer dashboard for posting and managing jobs
+- Integration of social media links and contact info
+- Clean, modular React components with reusable styling
+
+---
+
+## Tech Stack
+
+- React.js (Create React App / Vite)
+- React Router (for page navigation)
+- Tailwind CSS / CSS Modules / Styled Components (choose your styling)
+- Axios or Fetch API (for data fetching, if backend integrated)
+- Optional: Redux or Context API (for state management)
+
+---
+
+## Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/slt-mobitel-jobportal-react.git
+cd slt-mobitel-jobportal-react
+
