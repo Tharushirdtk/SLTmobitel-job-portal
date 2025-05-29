@@ -30,8 +30,7 @@ The original SLT Mobitel Job Portal is a platform for job seekers and employers 
 - React.js (Create React App / Vite)
 - React Router (for page navigation)
 - Tailwind CSS / CSS Modules / Styled Components (choose your styling)
-- Axios or Fetch API (for data fetching, if backend integrated)
-- Optional: Redux or Context API (for state management)
+
 
 ---
 
