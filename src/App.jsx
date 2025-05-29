@@ -6,6 +6,7 @@ import Registration from './pages/Registration';
 import Vacancies from './pages/Vacancies';
 import ApplyForm from './pages/ApplyForm';
 import AppliedJobStatus from './pages/AppliedJobStatus';
+import AdminPage from './pages/AdminPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
@@ -29,6 +30,7 @@ function App() {
          <Route path="/apply" element={<ApplyForm/>} />
          <Route path="/jobStaus" element={<Vacancies/>}/>
          <Route path="/appliedJobStatus" element={<AppliedJobStatus/>}/>
+         <Route path="/admin/*" element={<AdminPage />} />
       </Routes>
    
     </BrowserRouter>
