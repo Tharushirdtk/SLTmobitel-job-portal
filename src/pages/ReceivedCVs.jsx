@@ -12,7 +12,7 @@ const ReceivedCVs = () => {
       file: 'dinith.pdf',
     },
     {
-      jobTitle: 'Telecom.',
+      jobTitle: 'Developer',
       name: 'Dilshara',
       gender: 'Male',
       field: 'IT',
