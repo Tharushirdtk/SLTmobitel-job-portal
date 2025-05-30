@@ -1,25 +1,14 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ReceivedCVs = () => {
-  const data = [
-    {
-      jobTitle: 'Software',
-      name: 'Dinith',
-      gender: 'Male',
-      field: 'IT',
-      contact: '074 3231211',
-      file: 'dinith.pdf',
-    },
-    {
-      jobTitle: 'Developer',
-      name: 'Dilshara',
-      gender: 'Male',
-      field: 'IT',
-      contact: '074 3231211',
-      file: 'dilshara.pdf',
-    },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/received-cvs')
+      .then(res => res.json())
+      .then(setData)
+      .catch(err => console.error('Error fetching CVs:', err));
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded shadow-md w-full">
@@ -43,7 +32,16 @@ const ReceivedCVs = () => {
               <td className="p-2">{cv.gender}</td>
               <td className="p-2">{cv.field}</td>
               <td className="p-2">{cv.contact}</td>
-              <td className="p-2 text-blue-700 underline cursor-pointer">{cv.file}</td>
+              <td className="p-2">
+                <a
+                  href={`http://localhost:5000/uploads/${cv.file}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-700 underline"
+                >
+                  {cv.file}
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>

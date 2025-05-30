@@ -1,17 +1,14 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AcceptedCVs = () => {
-  const data = [
-    {
-      jobTitle: 'Web Developer',
-      name: 'Dilshara',
-      gender: 'Male',
-      field: 'IT',
-      contact: '074 3231211',
-      file: 'dilshara.pdf',
-    },
-  ];
+  const [acceptedCVs, setAcceptedCVs] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/accepted-cvs')
+      .then(res => setAcceptedCVs(res.data))
+      .catch(err => console.error('Failed to fetch accepted CVs:', err));
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded shadow-md w-full">
@@ -28,14 +25,23 @@ const AcceptedCVs = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((cv, idx) => (
+          {acceptedCVs.map((cv, idx) => (
             <tr key={idx} className="text-center border-t">
               <td className="p-2">{cv.jobTitle}</td>
               <td className="p-2">{cv.name}</td>
               <td className="p-2">{cv.gender}</td>
               <td className="p-2">{cv.field}</td>
               <td className="p-2">{cv.contact}</td>
-              <td className="p-2 text-blue-700 underline cursor-pointer">{cv.file}</td>
+              <td className="p-2">
+                <a
+                  href={`http://localhost:5000/uploads/${cv.file}`}
+                  className="text-blue-700 underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {cv.file}
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>

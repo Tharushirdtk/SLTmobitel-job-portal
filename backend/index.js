@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = 5000;
@@ -9,6 +10,12 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+app.use('/uploads', express.static(uploadsDir));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -21,6 +28,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+let jobList = [];
+let receivedCVs = [];
+let acceptedCVs = [];  
 
 // ------------------------ LOGIN ------------------------
 app.post('/login', (req, res) => {
@@ -62,12 +73,48 @@ app.post('/apply', upload.single('cv'), (req, res) => {
     return res.status(400).json({ message: 'All fields are required including CV upload.' });
   }
 
+  const newCV = {
+    jobTitle: field,
+    name: fullName,
+    gender,
+    field,
+    contact,
+    file: cvFile.filename,
+  };
+
+  receivedCVs.push(newCV);
+
   console.log("Application received from:", fullName);
   console.log("CV uploaded to:", cvFile.path);
 
   res.json({ message: 'Application submitted successfully!' });
 });
 
+// ----------------------- GET RECEIVED CVs -----------------------
+app.get('/received-cvs', (req, res) => {
+  res.json(receivedCVs);
+});
+
+// ----------------------- GET ACCEPTED CV -----------------------
+app.post('/accept-cv', (req, res) => {
+  const { name } = req.body;
+
+ 
+  const index = receivedCVs.findIndex((cv) => cv.name === name);
+  if (index === -1) {
+    return res.status(404).json({ message: 'CV not found in received list.' });
+  }
+
+  const accepted = receivedCVs.splice(index, 1)[0];
+  acceptedCVs.push(accepted);
+
+  res.json({ message: 'CV accepted successfully.' });
+});
+
+
+app.get('/accepted-cvs', (req, res) => {
+  res.json(acceptedCVs);
+});
 
 // ----------------------- JOB CREATIONS -----------------------
 app.post('/create-job', (req, res) => {
@@ -86,26 +133,32 @@ app.post('/create-job', (req, res) => {
       description,
     } = req.body;
 
-    
     if (
-      !jobId ||
-      !field ||
-      !position ||
-      !contact ||
-      !background ||
-      !salary ||
-      !dueDate ||
-      !email ||
-      !location ||
-      !workType ||
-      description
+      !jobId || !field || !position || !contact ||
+      !background || !salary || !dueDate ||
+      !email || !location || !workType || !description
     ) {
       return res.status(400).json({ message: 'Please fill all required fields.' });
     }
 
-    console.log("New job created:", { jobId, field, position, contact, background, salary, dueDate, email, location, workType, description });
+    const newJob = {
+      id: jobId,
+      field,
+      position,
+      contact,
+      background,
+      salary,
+      dueDate,
+      email,
+      location,
+      workType,
+      description,
+      status: 'Pending',
+      date: new Date().toISOString().split('T')[0], 
+    };
 
-   
+    jobList.push(newJob);
+    console.log("New job created:", newJob);
 
     res.json({ message: 'Job vacancy created successfully!' });
   } catch (err) {
