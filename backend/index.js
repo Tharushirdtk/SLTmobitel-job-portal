@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -8,6 +9,15 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); 
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  },
+});
 
 // ------------------------ LOGIN ------------------------
 
@@ -33,6 +43,31 @@ app.post('/register', (req, res) => {
   res.json({ success: true, message: 'Registration successful!' });
 });
 
+// ----------------------- APPLY FORM -----------------------
+app.post('/apply', upload.single('cv'), (req, res) => {
+  const {
+    initials,
+    fullName,
+    gender,
+    dob,
+    email,
+    contact,
+    field,
+  } = req.body;
+
+  const cvFile = req.file;
+
+  if (!initials || !fullName || !gender || !dob || !email || !contact || !field || !cvFile) {
+    return res.status(400).json({ message: 'All fields are required including CV upload.' });
+  }
+
+  console.log("Application received from:", fullName);
+  console.log("CV uploaded to:", cvFile.path);
+
+  res.json({ message: 'Application submitted successfully!' });
+});
+
+// -------------------- START SERVER --------------------
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
