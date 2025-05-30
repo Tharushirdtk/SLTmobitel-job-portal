@@ -9,6 +9,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/'); 
@@ -19,8 +20,9 @@ const storage = multer.diskStorage({
   },
 });
 
-// ------------------------ LOGIN ------------------------
+const upload = multer({ storage });
 
+// ------------------------ LOGIN ------------------------
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   if (username === 'admin@slt.com' && password === '1234') {
@@ -29,7 +31,6 @@ app.post('/login', (req, res) => {
     res.json({ success: false, message: 'Invalid credentials' });
   }
 });
-
 
 // --------------------- REGISTRATION ---------------------
 app.post('/register', (req, res) => {
@@ -67,8 +68,55 @@ app.post('/apply', upload.single('cv'), (req, res) => {
   res.json({ message: 'Application submitted successfully!' });
 });
 
-// -------------------- START SERVER --------------------
 
+// ----------------------- JOB CREATIONS -----------------------
+app.post('/create-job', (req, res) => {
+  try {
+    const {
+      jobId,
+      field,
+      position,
+      contact,
+      background,
+      salary,
+      dueDate,
+      email,
+      location,
+      workType,
+      description,
+    } = req.body;
+
+    
+    if (
+      !jobId ||
+      !field ||
+      !position ||
+      !contact ||
+      !background ||
+      !salary ||
+      !dueDate ||
+      !email ||
+      !location ||
+      !workType ||
+      description
+    ) {
+      return res.status(400).json({ message: 'Please fill all required fields.' });
+    }
+
+    console.log("New job created:", { jobId, field, position, contact, background, salary, dueDate, email, location, workType, description });
+
+   
+
+    res.json({ message: 'Job vacancy created successfully!' });
+  } catch (err) {
+    console.error('Error in /create-job:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+// -------------------- START SERVER --------------------
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
