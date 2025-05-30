@@ -18,6 +18,7 @@ export default function NavBar(){
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About Us</Link></li>
         <li><Link to="/vacancies">Vacancies</Link></li>
+        <li><Link to="/admin">Admin</Link></li>
         <li><Link to="/login">Login</Link></li>
       </ul>
     </nav>
