@@ -1,14 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
 const PORT = 5000;
 
-app.use(cors()); 
-app.use(express.json()); 
-
-app.get('/', (req, res) => {
-  res.send('Hello from the backend!');
-});
+app.use(cors());
+app.use(express.json());
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
@@ -17,9 +14,7 @@ app.listen(PORT, () => {
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-
-  // dummy check
-  if (username === 'admin' && password === '1234') {
+  if (username === 'admin@slt.com' && password === '1234') {
     res.json({ success: true, message: 'Login successful!' });
   } else {
     res.json({ success: false, message: 'Invalid credentials' });
