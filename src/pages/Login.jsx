@@ -1,13 +1,29 @@
 import React from "react";
+import { useState } from 'react';
 import loginImage from "../assets/login.png"; 
 import { Link } from "react-router-dom";
 
 export default function Login() {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const res = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row">
         
-      
+        
         <div className="w-full md:w-1/2 p-8 md:p-12">
           <div className="bg-blue-900 text-white p-10 rounded-3xl shadow-lg flex flex-col h-full">
             <h2 className="text-4xl font-bold mb-8 text-center">Login</h2>
@@ -16,9 +32,11 @@ export default function Login() {
               <div>
                 <label className="block text-sm mb-1">Email address</label>
                 <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full p-3 rounded-md text-black"
+                   type="email"
+                   placeholder="Enter your email"
+                   value={username}
+                   onChange={(e) => setUsername(e.target.value)}
+                   className="w-full p-3 rounded-md text-black"
                 />
               </div>
 
@@ -27,13 +45,19 @@ export default function Login() {
                 <input
                   type="password"
                   placeholder="Enter your password"
-                  className="w-full p-3 rounded-md text-black"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                   className="w-full p-3 rounded-md text-black"
                 />
               </div>
 
-              <button className="w-full bg-white text-blue-900 hover:bg-gray-200 font-bold py-2 rounded-full">
+              <button
+              type="button"
+              onClick={handleLogin}
+              className="w-full bg-white text-blue-900 hover:bg-gray-200 font-bold py-2 rounded-full"
+              >
                 Sign In
-              </button>
+            </button>
             </form>
 
             <p className="text-center mt-6">
@@ -60,6 +84,7 @@ export default function Login() {
           </div>
         </div>
 
+        
         <div className="hidden md:flex md:w-1/2 items-center justify-center p-6">
           <img
             src={loginImage}
