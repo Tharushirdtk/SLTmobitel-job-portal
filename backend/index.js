@@ -114,7 +114,20 @@ app.post('/create-job', (req, res) => {
   }
 });
 
+// ----------------------- JOB MODIFICATION -----------------------
+app.get('/jobs', (req, res) => {
+  res.json(jobList);
+});
 
+app.delete('/jobs/:id', (req, res) => {
+  const jobId = req.params.id;
+  const index = jobList.findIndex((job) => job.id === jobId);
+  if (index !== -1) {
+    jobList.splice(index, 1);
+    return res.json({ message: 'Job deleted successfully.' });
+  }
+  res.status(404).json({ message: 'Job not found.' });
+});
 
 // -------------------- START SERVER --------------------
 app.listen(PORT, () => {
