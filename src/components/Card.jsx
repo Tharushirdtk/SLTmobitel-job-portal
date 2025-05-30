@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 
 export default function Card(props){
 
@@ -27,9 +27,9 @@ export default function Card(props){
 
       {/* Apply now button  */}
       <div className="mt-4">
-        <button className="bg-green-500 text-white text-sm font-medium py-2 w-full rounded-full hover:bg-green-600 h-10">
+        <Link to="/apply" className="bg-green-500 text-white py-2 px-6 rounded-full text-sm font-medium hover:bg-green-700">
           Apply now
-        </button>
+        </Link>
       </div>
     </div>
      )
