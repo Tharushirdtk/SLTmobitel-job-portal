@@ -1,29 +1,34 @@
-import React from "react";
-import { useState } from 'react';
+import React, { useState } from "react";
 import registerImage from "../assets/Registration .png";
 
 export default function Registration() {
-
-  const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = async () => {
-  if (password !== confirmPassword) {
-    alert('Passwords do not match!');
-    return;
-  }
+    
+    if (!email || !name || !password || !confirmPassword) {
+      alert('Please fill all fields.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
 
-  const res = await fetch('http://localhost:5000/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, name, password }),
-  });
+    console.log({ email, name, password });  
 
-  const data = await res.json();
-  alert(data.message);
-};
+    const res = await fetch('http://localhost:5000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, password }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -40,19 +45,25 @@ export default function Registration() {
         <div className="w-full md:w-[55%] bg-blue-900 text-white p-6 md:p-8 rounded-3xl flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-8 text-center">Register</h2>
 
-          <form className="space-y-6">
-
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleRegister();
+            }}
+          >
             <div className="flex items-center justify-between">
-              <label htmlFor="userid" className="w-1/3 text-sm font-semibold ">
-                User ID
+              <label htmlFor="email" className="w-1/3 text-sm font-semibold ">
+                Email
               </label>
               <input
-                id="userid"
-                type="text"
-                placeholder="Enter user ID"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
+                required
               />
             </div>
 
@@ -60,14 +71,15 @@ export default function Registration() {
               <label htmlFor="name" className="w-1/3 text-sm font-semibold">
                 Name
               </label>
-                 <input
-                  id="name"
-                  type="text"
-                  placeholder="Enter full name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
-                 />
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
+                required
+              />
             </div>
 
             <div className="flex items-center justify-between">
@@ -81,34 +93,34 @@ export default function Registration() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
+                required
               />
-
             </div>
 
             <div className="flex items-center justify-between">
               <label htmlFor="confirmPassword" className="w-1/3 text-sm font-semibold">
                 Confirm Password
               </label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
-                />
+              <input
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-2/3 bg-white text-black rounded-md px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
+                required
+              />
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
+              >
+                Submit
+              </button>
             </div>
           </form>
-
-          {/* Submit Button */}
-          <div className="flex justify-end mt-6">
-            <button
-                 onClick={handleRegister}
-                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
-            >
-                 Submit
-            </button>
-          </div>
         </div>
       </div>
     </div>
