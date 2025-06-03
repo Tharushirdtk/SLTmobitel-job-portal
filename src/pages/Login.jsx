@@ -1,40 +1,47 @@
 import React, { useState } from "react";
-import loginImage from "../assets/login.png"; 
-import { Link } from "react-router-dom";
+import loginImage from "../assets/login.png";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState('');      
-  const [password, setPassword] = useState('');
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
   const handleLogin = async () => {
-    const res = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),   
-    });
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
-    alert(data.message);
+      const data = await res.json();
+      alert(data.message);
+
+      if (res.ok && data.success) {
+        navigate("/"); 
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row">
-        
-       
         <div className="w-full md:w-1/2 p-8 md:p-12">
           <div className="bg-blue-900 text-white p-10 rounded-3xl shadow-lg flex flex-col h-full">
             <h2 className="text-4xl font-bold mb-8 text-center">Login</h2>
 
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
               <div>
                 <label className="block text-sm mb-1">Email address</label>
                 <input
-                   type="email"
-                   placeholder="Enter your email"
-                   value={email}
-                   onChange={(e) => setEmail(e.target.value)}   
-                   className="w-full p-3 rounded-md text-black"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 rounded-md text-black"
                 />
               </div>
 
@@ -45,12 +52,12 @@ export default function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                   className="w-full p-3 rounded-md text-black"
+                  className="w-full p-3 rounded-md text-black"
                 />
               </div>
 
               <button
-                type="button"
+                type="submit"
                 onClick={handleLogin}
                 className="w-full bg-white text-blue-900 hover:bg-gray-200 font-bold py-2 rounded-full"
               >

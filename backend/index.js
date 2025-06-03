@@ -47,21 +47,14 @@ const upload = multer({ storage });
 
 // ------------------------ LOGIN ------------------------
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;   
-
-  if (!email || !password) {               
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Please fill all fields.' });
   }
 
   try {
-    
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
-    }
-
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
+    const user = await User.findOne({ email });
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
