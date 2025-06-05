@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import registerImage from "../assets/Registration .png";
+import { useNavigate } from "react-router-dom";
 
-export default function Registration() {
+export default function AdminRegistration() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
     
-    if (!email || !name || !password || !confirmPassword) {
+    if (!email || !name || !password || !confirmPassword ) {
       alert('Please fill all fields.');
       return;
     }
@@ -18,41 +20,37 @@ export default function Registration() {
       return;
     }
 
-    console.log({ email, name, password });  
+    try {
+      const res = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email, 
+          name, 
+          password, 
+          role: 'admin',
+         
+        }),
+      });
 
-    const res = await fetch('http://localhost:5000/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, password }),
-    });
-
-    const data = await res.json();
-    alert(data.message);
+      const data = await res.json();
+      alert(data.message);
+      if (res.ok && data.success) {
+        navigate('/adminLogin');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Admin registration failed. Please try again.');
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="max-w-3xl w-full flex flex-col md:flex-row items-center bg-white rounded-3xl shadow-xl overflow-hidden p-4 md:p-6">
+    <div className="min-h-screen flex items-center justify-center bg-red-200 px-4">
+      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-8">
+        <h2 className="text-3xl font-bold mb-8 text-center text-red-700">Admin Registration</h2>
 
-        <div className="hidden md:flex md:w-[45%] justify-center items-center">
-          <img
-            src={registerImage}
-            alt="Register"
-            className="w-72 h-auto object-contain rounded-xl"
-          />
-        </div>
-
-        <div className="w-full md:w-[55%] bg-blue-900 text-white p-6 md:p-8 rounded-3xl flex flex-col justify-center">
-          <h2 className="text-3xl font-bold mb-8 text-center">Register</h2>
-
-          <form
-            className="space-y-6"
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleRegister();
-            }}
-          >
-            <div className="flex items-center justify-between">
+        <form className="space-y-4" onSubmit={handleRegister}>
+          <div className="flex items-center justify-between">
               <label htmlFor="email" className="w-1/3 text-sm font-semibold ">
                 Email
               </label>
@@ -67,7 +65,7 @@ export default function Registration() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
               <label htmlFor="name" className="w-1/3 text-sm font-semibold">
                 Name
               </label>
@@ -112,16 +110,13 @@ export default function Registration() {
               />
             </div>
 
-            <div className="flex justify-end mt-6">
-              <button
-                type="submit"
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+          >
+            Register Admin
+          </button>
+        </form>
       </div>
     </div>
   );

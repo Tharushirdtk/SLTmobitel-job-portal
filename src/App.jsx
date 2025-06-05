@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import Login from './pages/Login';
-import Registration from './pages/Registration';
 import Vacancies from './pages/Vacancies';
 import ApplyForm from './pages/ApplyForm';
 import AppliedJobStatus from './pages/AppliedJobStatus';
@@ -25,7 +24,6 @@ function App() {
         <Route path="/" element={<Home/>} />
          <Route path="/about" element={<AboutUs/>} />
          <Route path="/login" element={<Login />} />
-         <Route path="/register" element={<Registration />} />
          <Route path="/vacancies" element={<Vacancies/>} />
          <Route path="/apply" element={<ApplyForm/>} />
          <Route path="/jobStaus" element={<Vacancies/>}/>
