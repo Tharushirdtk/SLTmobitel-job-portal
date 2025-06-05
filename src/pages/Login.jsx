@@ -27,10 +27,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="max-w-5xl w-full bg-white rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row">
+    <div className="min-h-screen flex items-center justify-center bg-blue-100 px-4">
+      <div className="max-w-5xl w-full bg-blue-900 rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-8 md:p-12">
-          <div className="bg-blue-900 text-white p-10 rounded-3xl shadow-lg flex flex-col h-full">
+          <div className="bg-blue-950 text-white p-10 rounded-3xl shadow-lg flex flex-col h-full">
             <h2 className="text-4xl font-bold mb-8 text-center">Login</h2>
 
             <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
@@ -59,7 +59,7 @@ export default function Login() {
               <button
                 type="submit"
                 onClick={handleLogin}
-                className="w-full bg-white text-blue-900 hover:bg-gray-200 font-bold py-2 rounded-full"
+                className="w-full bg-blue-300 text-blue-900 hover:bg-gray-200 font-bold py-2 rounded-full"
               >
                 Sign In
               </button>
@@ -67,24 +67,22 @@ export default function Login() {
 
             <p className="text-center mt-6">
               Don’t have an account?{" "}
-              <Link to="/register" className="text-green-400 hover:underline">
+              <Link to="/UserRegister" className="text-green-400 hover:underline font-bold">
                 Sign up
               </Link>
             </p>
 
             <div className="flex items-center my-6">
               <div className="flex-grow h-px bg-white"></div>
-              <span className="px-4 text-sm">or</span>
+              <span className="px-4 text-sm">If you are an admin</span>
               <div className="flex-grow h-px bg-white"></div>
             </div>
 
             <div className="flex flex-col space-y-3">
-              <button className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-full">
-                Continue with Google
-              </button>
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-full">
-                Continue with Facebook
-              </button>
+              <Link to="/adminLogin" className="w-70 bg-green-700 text-white hover:bg-green-600 font-bold py-2 ">
+              Admin login
+              </Link>
+        
             </div>
           </div>
         </div>
