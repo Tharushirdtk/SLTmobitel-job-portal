@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import heroImage from "../assets/Hero.jpg";
 import Card from "./Card";
 
+
 export default function Hero() {
   return (
     <>
@@ -32,7 +33,9 @@ export default function Hero() {
             "Network devices and security knowledge.",
             "Networking device configuration knowledge.",
           ]}
+         
         />
+        
 
         <Card
           title="ACCOUNTANT – FINANCIAL ACCOUNTING"
