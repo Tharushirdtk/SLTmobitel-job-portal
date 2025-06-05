@@ -45,7 +45,7 @@ export default function ApplyForm() {
       <VacanciesNavBar />
       <div className="bg-white rounded-2xl p-8 shadow-md max-w-2xl mx-auto mt-10">
         <span className="text-xl font-bold mb-6 block">
-          Job Title: <span className="font-medium">Web Development Trainee</span>
+          Job Application
         </span>
         <form onSubmit={handleSubmit}>
           {[
