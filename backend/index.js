@@ -45,6 +45,43 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+
+// --------------------- REGISTRATION ---------------------
+app.post('/register', async (req, res) => {
+  const { email, name, password, role = 'user', adminKey } = req.body;
+
+  if (!email || !name || !password) {
+    return res.status(400).json({ success: false, message: 'Please fill all fields.' });
+  }
+
+  
+  if (role === 'admin') {
+    const validAdminKey = process.env.ADMIN_REGISTRATION_KEY || 'secret-admin-key';
+    if (adminKey !== validAdminKey) {
+      return res.status(403).json({ success: false, message: 'Invalid admin registration key' });
+    }
+  }
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'User already exists.' });
+    }
+
+    const newUser = new User({ email, name, password, role });
+    await newUser.save();
+
+    res.json({ 
+      success: true, 
+      message: 'Registration successful!',
+      user: { email: newUser.email, name: newUser.name, role: newUser.role }
+    });
+  } catch (err) {
+    console.error('Registration error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 // ------------------------ LOGIN ------------------------
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -58,33 +95,13 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
-    res.json({ success: true, message: 'Login successful!' });
+    res.json({ 
+      success: true, 
+      message: 'Login successful!',
+      user: { email: user.email, name: user.name, role: user.role }
+    });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
-
-// --------------------- REGISTRATION ---------------------
-app.post('/register', async (req, res) => {
-  const {email, name, password } = req.body;
-
-  if (!email || !name || !password) {
-    return res.status(400).json({ success: false, message: 'Please fill all fields.' });
-  }
-
-  try {
-    const existingUser = await User.findOne({email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: 'User already exists.' });
-    }
-
-    const newUser = new User({email, name, password });
-    await newUser.save();
-
-    res.json({ success: true, message: 'Registration successful!' });
-  } catch (err) {
-    console.error('Registration error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
@@ -197,13 +214,23 @@ app.get('/jobs', async (req, res) => {
 });
 
 // ----------------------- JOB DELETE -----------------------
+
 app.delete('/jobs/:id', async (req, res) => {
   const job = await Job.findOneAndDelete({ jobId: req.params.id });
   if (job) {
-    return res.json({ message: 'Job deleted successfully.' });
+    return res.json({ 
+      message: 'Job deleted successfully.',
+      deletedId: job.jobId  
+    });
   }
   res.status(404).json({ message: 'Job not found.' });
 });
+
+
+
+
+
+
 
 // -------------------- START SERVER --------------------
 app.listen(PORT, () => {
