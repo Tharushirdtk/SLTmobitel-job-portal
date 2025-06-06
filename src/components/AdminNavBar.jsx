@@ -15,7 +15,7 @@ export default function AdminNavBar(){
          <ul className="flex space-x-6 text-gray-700 font-bold">
                
                <li><Link to="/">Home</Link></li>
-                <li><Link to="/logout" className="text-red-600 font-bold">Logout</Link></li>
+                <li><Link to="/adminlogin" className="text-red-600 font-bold">Logout</Link></li>
              </ul>
            </nav>
         </>
