@@ -43,9 +43,11 @@ export default function NavBar(){
           <li>
             <button 
               onClick={handleLogout}
-              className="text-red-600 font-bold hover:text-red-800"
+             
             >
-              Logout
+             <Link to="/Login"  className="text-red-600 font-bold hover:text-red-800">
+                Logout
+               </Link>
             </button>
           </li>
         </ul>
